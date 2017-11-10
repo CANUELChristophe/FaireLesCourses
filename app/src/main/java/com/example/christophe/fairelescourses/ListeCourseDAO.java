@@ -44,16 +44,14 @@ public final class ListeCourseDAO {
                 + COLUMN_CHECKBOX + " = '" + CheckBoxBooleanToString(listeCourse.isEtat()) + "'"
                 + " WHERE "
                 + COLUMN_PRODUIT + " = '" + listeCourse.getProduit()+ "'");
-
-        System.out.println("this.CheckBoxToString(listeCourse.isEtat()) " + CheckBoxBooleanToString(listeCourse.isEtat()));
     }
 
     public static void deleteRecordCHECKBOX(SQLiteDatabase db) {
-        db.execSQL("delete from " + TABLE_NAME + " where " + COLUMN_CHECKBOX + " = 'true'");
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_CHECKBOX + " = 'true'");
     }
 
     public static void deleteAllRecord(SQLiteDatabase db) {
-        db.execSQL("delete from " + TABLE_NAME);
+        db.execSQL("DELETE FROM " + TABLE_NAME);
     }
 
     public static ArrayList<ListeCourse> getAllRecordsCursorBAD(SQLiteDatabase db) {
@@ -65,7 +63,6 @@ public final class ListeCourseDAO {
                 cursor.moveToNext();
                 listeCourseLigne = new ListeCourse(cursor.getString(0),cursor.getInt(1),cursor.getString(2),CheckBoxStringToBoolean(cursor.getString(3)));
                 listeCourse.add(listeCourseLigne);
-                System.out.println("cursor.getString(2) = " + cursor.getString(2));
             }
         }
         cursor.close();

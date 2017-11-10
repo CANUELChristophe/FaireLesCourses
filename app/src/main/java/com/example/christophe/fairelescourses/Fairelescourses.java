@@ -46,7 +46,6 @@ public class Fairelescourses  extends AppCompatActivity {
 
         mySQLiteHelper = new SQLiteHelper(this);
 
-        System.out.println("passage onCreate()");
         linearLayoutSaisie = (LinearLayout) findViewById(R.id.LinearLayoutSaisie);
         editTextProduitSaisie = (EditText) findViewById(R.id.editTextProduitSaisie);
         editTextQuantiteSaisie = (EditText) findViewById(R.id.editTextQuantiteSaisie);
@@ -77,7 +76,6 @@ public class Fairelescourses  extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int reponse) {
                         textViewUniteSaisie.setText(uniteReponseText[reponse]);
-                        System.out.println("reponse = " + reponse);
                     }
                 });
                 AlertDialog alert = AlerteDialogBuilderUnite.create();
@@ -132,10 +130,8 @@ public class Fairelescourses  extends AppCompatActivity {
                 AlertDialog.Builder effacerOuiNon = new AlertDialog.Builder(v.getContext());
                 effacerOuiNon.setTitle("Faire les courses");
                 effacerOuiNon.setMessage("Voulez vous vider la liste?");
-                System.out.println("Avant dialog Oui");
                 effacerOuiNon.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("J'ai appuyé sur Oui");
                 /* Debut SQL ligne */
                         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
                         ListeCourseDAO.deleteAllRecord(db);
@@ -149,13 +145,9 @@ public class Fairelescourses  extends AppCompatActivity {
                     };
                 });
 
-                System.out.println("Apres dialog Non");
                 effacerOuiNon.setNegativeButton("Non", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("J'ai appuyé sur Non");
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 });
-                System.out.println("Sortie dialog");
                 AlertDialog Builder = effacerOuiNon.create();
                 effacerOuiNon.show();
 
@@ -171,8 +163,7 @@ public class Fairelescourses  extends AppCompatActivity {
                         ListeCourseDAO.updateRecord(db,listeCourseList.get(i));
                         listeCourseList.remove(i);
                     }
-                    else
-                    {
+                    else {
                         i++;
                     }
                 }
@@ -192,83 +183,64 @@ public class Fairelescourses  extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        System.out.println("passage onPostResume()");
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println("passage onStart()");
-        /* Debut Read */
+        /* Debut Read SQL */
         SQLiteDatabase db = mySQLiteHelper.getReadableDatabase();
-//        ArrayList<ListeCourse> listeCourseListLocal = ListeCourseDAO.getAllRecordsCursorBAD(db);
         ArrayList<ListeCourse> listeCourseListLocal = ListeCourseDAO.getAllRecords(db);
         db.close();
 
         for (int i = 0;i < listeCourseListLocal.size();i++) {
             listeCourseList.add(listeCourseListLocal.get(i));
         }
-
         trierListeCourse();
-
-        /* Fin Read */
+        /* Fin Read SQL */
         db.close();
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        System.out.println("passage onStop()");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /* sauvegardee donnees BDD puis fermeture BDD */
-        /* debut Write */
-
-
-        /* Fin Write */
-
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        System.out.println("passage onPause");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        System.out.println("passage onResume()");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        System.out.println("passage onRestart()");
     }
 
 /*--------------------------------------------------------------*/
 
     private int ChercheProduit (String produit) {
         for (int i=0; i < listeCourseList.size(); i++){
-            System.out.println("getProduit(1) " + i + "<" + listeCourseList.get(i).getProduit() + ">");
-            System.out.println("Produit(1) <" + produit + ">");
             if (listeCourseList.get(i).getProduit().equals(produit)) {
-                System.out.println("getProduit(2) " + i + "<" + listeCourseList.get(i).getProduit() + ">");
-                System.out.println("Produit(2) <" + produit + ">");
-                System.out.println("sortie boucle " + i);
+        /* Produit trouvé */
                 return i;
             }
         }
+        /* Produit non trouvé */
         return -1;
     };
 
     private String AjouterProduit (String produit, double quantite, String unite) {
-        String resultat = "OK";
+        String resultat = "KO";
         int positionProduit = ChercheProduit(produit);
         SQLiteDatabase db = mySQLiteHelper.getWritableDatabase();
         if (positionProduit == -1) {
@@ -278,7 +250,8 @@ public class Fairelescourses  extends AppCompatActivity {
         /* Fin Ajout SQL */
             System.out.println("Add : " + produit + " nb : " + quantite + "unite : " + unite);
             trierListeCourse();
-        } else {
+        }
+        else {
             ListeCourse ligneAModifier = listeCourseList.get(positionProduit);
             resultat = ligneAModifier.addQuantite(quantite, unite);
             if (resultat != "OK"){
@@ -288,7 +261,6 @@ public class Fairelescourses  extends AppCompatActivity {
             ListeCourseDAO.updateRecord(db,ligneAModifier);
         /* Fin Ajout SQL */
             listeCourseList.set(positionProduit,ligneAModifier);
-            System.out.println("Update : " + produit + " nb : " + quantite);
         };
         db.close();
         return resultat;
@@ -302,10 +274,7 @@ public class Fairelescourses  extends AppCompatActivity {
         do {
             change = false;
             for (index1=0, index2=index1 +1; index2 < listeCourseList.size();index1++, index2++){
-                System.out.println("index1 = " + index1 + "produit 1 = " + listeCourseList.get(index1).getProduit().toString() + " produit 2 = " + listeCourseList.get(index2).getProduit().toString() + "compareTo = " + listeCourseList.get(index1).getProduit().compareTo(listeCourseList.get(index2).getProduit()));
-
                 if (listeCourseList.get(index1).getProduit().compareTo(listeCourseList.get(index2).getProduit()) > 0 ){ /* index1 > index2*/
-                    System.out.println("inversion " + listeCourseList.get(index1).getProduit() + " - " + listeCourseList.get(index2).getProduit());
                     listeCoursePoubelle = listeCourseList.get(index1);
                     listeCourseList.set(index1,listeCourseList.get(index2));
                     listeCourseList.set(index2,listeCoursePoubelle);
@@ -313,11 +282,9 @@ public class Fairelescourses  extends AppCompatActivity {
                 }
             }
         } while (change == true);
-        System.out.println("-------------------------------");
         for (index1=0;index1<listeCourseList.size();index1++){
             System.out.println(listeCourseList.get(index1).getProduit());
         }
-        System.out.println("-------------------------------");
     };
 
     private boolean IsNumeric(String chaine) {

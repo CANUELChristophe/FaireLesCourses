@@ -68,7 +68,6 @@ public class ListeCourseAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 currentListeCourse.switchEtat();
-                System.out.println("passage onClick checkBox");
                 checkBoxClickBoolean[0] = true;
             }
         });
@@ -81,7 +80,6 @@ public class ListeCourseAdapter extends BaseAdapter {
                 public void onClick(View v) {
                     EditText editTextProduitSaisie = (EditText) linearLayoutSaisie.findViewById(R.id.editTextProduitSaisie);
                     editTextProduitSaisie.setText(currentListeCourse.getProduit());
-                    System.out.println("click sur la ligne : " + currentListeCourse.getProduit());
                 }
             });
         }
