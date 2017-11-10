@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/LinearLayoutListeCourse"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="false"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/LinearLayoutLigneListeCourse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textViewProduitCourse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/textViewQuantiteCourse"
+                android:layout_toStartOf="@+id/textViewQuantiteCourse"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="Produit"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textViewQuantiteCourse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/textViewUniteCourse"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:text="Qte"
+                android:textStyle="bold"
+                tools:text="100.000,00" />
+
+            <TextView
+                android:id="@+id/textViewUniteCourse"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/checkBoxCourse"
+                android:layout_alignBottom="@+id/checkBoxCourse"
+                android:layout_toLeftOf="@+id/checkBoxCourse"
+                android:layout_toStartOf="@+id/checkBoxCourse"
+                android:clickable="false"
+                android:textAlignment="textEnd"
+                android:textStyle="bold"
+                tools:text="Kg" />
+
+            <CheckBox
+                android:id="@+id/checkBoxCourse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>
